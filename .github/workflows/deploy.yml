@@ -20,14 +20,8 @@ jobs:
 
       - name: Kill process on port 4000
         run: |
-          PID=$(lsof -t -i:4000)
-          if [ -n "$PID" ]; then
-            echo "Killing process on port 4000 (PID: $PID)"
-            kill -9 $PID
-          else
-            echo "No process is running on port 4000"
-          fi
- 
+          kill -9 $(lsof -t -i:4000 2>/dev/null) || true
+
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@54.83.78.255 << 'EOF'

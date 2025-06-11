@@ -20,8 +20,9 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@54.83.78.255 << EOF
-          # Kill process on port 4000
+          ssh -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@54.83.78.255 << 'EOF'
+
+          # Kill any process running on port 4000
           sudo bash -c '
           PID=\$(lsof -t -i:4000 || true)
           if [ -n "\$PID" ]; then
@@ -32,28 +33,29 @@ jobs:
           fi
           '
 
-          # Git pull
+          # Pull latest code
           sudo bash -c '
           cd /opt/houseoffitness/House-Of-Fitness-MERN-WebSite
           git config --global --add safe.directory /opt/houseoffitness/House-Of-Fitness-MERN-WebSite
           git pull origin main
           '
 
-          # Backend install
+          # Install backend dependencies
           sudo bash -c '
           cd /opt/houseoffitness/House-Of-Fitness-MERN-WebSite/backend
           npm install
           '
 
-          # Frontend install
+          # Install frontend dependencies
           sudo bash -c '
           cd /opt/houseoffitness/House-Of-Fitness-MERN-WebSite/frontend
           npm install --legacy-peer-deps
           '
 
-          # Start the backend
+          # Start backend in detached mode
           sudo bash -c '
           cd /opt/houseoffitness/House-Of-Fitness-MERN-WebSite/backend
-          nohup npm start -- --host 0.0.0.0 &
+          nohup npm start -- --host 0.0.0.0 > backend.log 2>&1 < /dev/null &
           '
+
           EOF

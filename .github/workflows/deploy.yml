@@ -20,7 +20,7 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@100.26.110.248 << EOF
+          ssh -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@34.203.234.103 << EOF
           # Kill process on port 4000
           sudo bash -c '
           PID=\$(lsof -t -i:4000 || true)
@@ -55,4 +55,6 @@ jobs:
           cd /opt/houseoffitness/House-Of-Fitness-MERN-WebSite/backend
           nohup npm start -- --host 0.0.0.0 &
           '
+
+          exit
           EOF

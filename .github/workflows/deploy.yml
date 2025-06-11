@@ -55,7 +55,8 @@ jobs:
           # Start backend in detached mode
           sudo bash -c '
           cd /opt/houseoffitness/House-Of-Fitness-MERN-WebSite/backend
-          nohup npm start -- --host 0.0.0.0 > backend.log 2>&1 < /dev/null &
+          nohup npm start -- --host 0.0.0.0 > backend.log 2>&1 &
+          disown
           '
 
           EOF

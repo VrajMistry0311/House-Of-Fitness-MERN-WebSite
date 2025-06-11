@@ -1,18 +1,18 @@
 name: Deploy to EC2
- 
+
 on:
   push:
     branches:
       - main
- 
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
- 
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
- 
+
       - name: Setup PEM File
         run: |
           echo "${{ secrets.EC2_PEM_KEY }}" > ec2-key.pem
@@ -20,23 +20,40 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@54.83.78.255 << 'EOF'
-          sudo -i
-          
+          ssh -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@54.83.78.255 << EOF
+          # Kill process on port 4000
+          sudo bash -c '
           PID=\$(lsof -t -i:4000 || true)
           if [ -n "\$PID" ]; then
-          echo "Killing process on port 4000 (PID: \$PID)"
-          kill -9 \$PID
+            echo "Killing process on port 4000 (PID: \$PID)"
+            kill -9 \$PID
           else
-          echo "No process running on port 4000"
+            echo "No process running on port 4000"
           fi
-          
+          '
+
+          # Git pull
+          sudo bash -c '
           cd /opt/houseoffitness/House-Of-Fitness-MERN-WebSite
+          git config --global --add safe.directory /opt/houseoffitness/House-Of-Fitness-MERN-WebSite
           git pull origin main
+          '
+
+          # Backend install
+          sudo bash -c '
           cd /opt/houseoffitness/House-Of-Fitness-MERN-WebSite/backend
           npm install
+          '
+
+          # Frontend install
+          sudo bash -c '
           cd /opt/houseoffitness/House-Of-Fitness-MERN-WebSite/frontend
           npm install --legacy-peer-deps
+          '
+
+          # Start the backend
+          sudo bash -c '
           cd /opt/houseoffitness/House-Of-Fitness-MERN-WebSite/backend
-          nohup npm start -- --host 0.0.0.0 & 
+          nohup npm start -- --host 0.0.0.0 &
+          '
           EOF

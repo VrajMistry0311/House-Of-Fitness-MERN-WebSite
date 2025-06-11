@@ -17,6 +17,16 @@ jobs:
         run: |
           echo "${{ secrets.EC2_PEM_KEY }}" > ec2-key.pem
           chmod 600 ec2-key.pem
+
+      - name: Kill process on port 4000
+        run: |
+          PID=$(lsof -t -i:4000)
+          if [ -n "$PID" ]; then
+            echo "Killing process on port 4000 (PID: $PID)"
+            kill -9 $PID
+          else
+            echo "No process is running on port 4000"
+          fi
  
       - name: Deploy to EC2
         run: |

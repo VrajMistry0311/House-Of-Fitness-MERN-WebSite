@@ -27,7 +27,7 @@ const Home = () => {
         <MetaData title="House Of Fitness" />
         <div className='banner'>
           <p>Welcome to House Of Fitness</p>
-          <h1>FIND AMAZING PRODUCTS ABOVE-vraj</h1>
+          <h1>FIND AMAZING PRODUCTS ABOVE-vraj1</h1>
           <a href="#container">
             <button>Scroll <CgMouse /></button>
           </a>

@@ -22,8 +22,12 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@54.83.78.255 << 'EOF'
           sudo -i
-          cd /opt/node-app
+          cd /opt/houseoffitness/House-Of-Fitness-MERN-WebSite
           git pull origin main
-          
-          
+          cd /opt/houseoffitness/House-Of-Fitness-MERN-WebSite/backend
+          npm install
+          cd /opt/houseoffitness/House-Of-Fitness-MERN-WebSite/frontend
+          npm install --legacy-peer-deps
+          cd /opt/houseoffitness/House-Of-Fitness-MERN-WebSite/backend
+          nohup npm start -- --host 0.0.0.0 & 
           EOF

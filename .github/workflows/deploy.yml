@@ -20,7 +20,8 @@ jobs:
 
       - name: Kill process on port 4000
         run: |
-          kill -9 $(lsof -t -i:4000 2>/dev/null) || true
+          PID=$(lsof -t -i:4000)
+          [ -n "$PID" ] && kill -9 $PID || echo "No process on port 4000"
 
       - name: Deploy to EC2
         run: |

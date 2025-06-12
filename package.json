@@ -10,8 +10,8 @@
     "build": "npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
   },
   "engines": {
-    "node": "16.13.2",
-    "npm": "8.12.2"
+    "node": "18.20.8",
+    "npm": "10.8.2"
   },
   "author": "Vraj Mistry",
   "license": "ISC",

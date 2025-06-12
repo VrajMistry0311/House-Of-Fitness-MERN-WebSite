@@ -1,0 +1,43 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "frontend/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "frontend/build"
+        }
+      },
+      {
+        "src": "api/**/*.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/users/(.*)",
+        "dest": "/api/user.js"
+      },
+      {
+        "src": "/api/products/(.*)",
+        "dest": "/api/product.js"
+      },
+      {
+        "src": "/api/payment/(.*)",
+        "dest": "/api/payment.js"
+      },
+      {
+        "src": "/api/orders/(.*)",
+        "dest": "/api/order.js"
+      },
+      {
+        "src": "/api/(.*)",
+        "dest": "/api/$1.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/frontend/build/$1"
+      }
+    ]
+  }
+  

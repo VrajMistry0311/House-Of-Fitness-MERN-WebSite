@@ -33,6 +33,8 @@ CLOUDINARY_API_KEY
 CLOUDINARY_API_SECRET
 _fill each filed with your info respectively_
 
+this line needs to be deleted
+
 ## Author
 
 **LinkedIn** Click [Here](https://www.linkedin.com/in/vraj-mistry-3127501b6/) **@VrajMistry0311**

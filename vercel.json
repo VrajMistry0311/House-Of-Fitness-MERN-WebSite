@@ -5,20 +5,18 @@
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "build",
-        "installCommand": "npm install --legacy-peer-deps",
-        "buildCommand": "npm run build"
+        "distDir": "frontend/build"
       }
     },
     {
-      "src": "backend/**/*.js",
+      "src": "api/index.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/backend/$1.js"
+      "dest": "/api/index.js"
     },
     {
       "handle": "filesystem"
